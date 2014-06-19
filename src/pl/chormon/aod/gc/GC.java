@@ -58,11 +58,33 @@ public class GC {
             printUsage();
             return;
         } else {
-            V = Integer.parseInt(args[0]);
+            try {
+                V = Integer.parseInt(args[0]);
+            } catch (NumberFormatException ex) {
+                System.out.println(args[0] + " nie jest liczbą całkowitą!");
+                printUsage();
+                return;
+            }
             //E = Integer.parseInt(args[1]);
-            G = Float.parseFloat(args[1]);
+            try {
+                G = Float.parseFloat(args[1]);
+            } catch (NumberFormatException ex) {
+                System.out.println(args[0] + " nie jest liczbą rzeczywistą!");
+                printUsage();
+                return;
+            }
             G = G < 0 ? 0 : G;
             G = G > 1 ? 1 : G;
+        }
+        if (V < 1) {
+            System.out.println("V " + V + " musi być większe od zera!");
+            printUsage();
+            return;
+        }
+        if (G < 0) {
+            System.out.println("G " + G + " musi być większe lub równe zero!");
+            printUsage();
+            return;
         }
         MAX_E = V * (V - 1) / 2;
         //p = (float) E / MAX_E;
@@ -72,10 +94,22 @@ public class GC {
             String value = args[i + 1];
             switch (key) {
                 case SEED_KEY:
-                    seed = Long.parseLong(value);
+                    try {
+                        seed = Long.parseLong(value);
+                    } catch (NumberFormatException ex) {
+                        System.out.println(args[0] + " nie jest liczbą całkowitą!");
+                        printUsage();
+                        return;
+                    }
                     break;
                 case ALGORITHM_KEY:
-                    alg = Alg.valueOf(value.toUpperCase());
+                    try {
+                        alg = Alg.valueOf(value.toUpperCase());
+                    } catch (IllegalArgumentException ex) {
+                        System.out.println(value.toUpperCase() + " nie jest poprawnym algorytmem!");
+                        printUsage();
+                        return;
+                    }
                     break;
             }
         }
@@ -90,11 +124,16 @@ public class GC {
                 break;
         }
         Graph colored = algorithm.color(g);
-        System.out.println(colored.validateColors());
+        boolean legal = colored.isLegal();
+        if (legal) {
+            System.out.println("SUKCES! Graf został pokolorowany legalnie!");
+        } else {
+            System.out.println("PORAŻKA! Graf został niepoprawnie pokolorowany!");
+        }
     }
 
     private static void printUsage() {
-        System.err.println("Użycie: java -jar GraphColoring.jar <V> <E> [-s <seed>] [-a <SLF/BB>]");
+        System.err.println("Użycie: java -jar GraphColoring.jar <V> <G> [-s <seed>] [-a <SLF/BB>]");
         System.out.println("Aby zobaczyć pomoc uruchom: java -jar GraphColoring.jar ?");
     }
 
