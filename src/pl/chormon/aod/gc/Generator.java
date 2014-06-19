@@ -33,17 +33,16 @@ import pl.chormon.aod.gc.graph.Graph;
 public class Generator {
 
     public static Graph createGraphByEdgeProbability(int V, float probability, long seed) {
-        if(probability > 1)
+        if (probability > 1) {
             probability = 1;
-        System.out.println("Genereting graph with edge probability of " + probability + "...");
+        } else if (probability < 0) {
+            probability = 0;
+        }
+        System.out.println("Generowanie grafu z " + V + " wierzchołkami i ziarnistością " + probability + " z użyciem ziarna " + seed + "...");
         int edgeCount = 0;
         Graph g = new Graph(V);
         Random generator;
-        if (seed == 0) {
-            generator = new Random();
-        } else {
-            generator = new Random(seed);
-        }
+        generator = new Random(seed);
 
         for (int i = 0; i < V; i++) {
             for (int j = 0; j < i; j++) {
@@ -54,7 +53,7 @@ public class Generator {
                 }
             }
         }
-        System.out.println("Created graph with " + V + " vertices and " + edgeCount + " edges.");
+        System.out.println("Stworzono graf z " + V + " wierzchołkami i " + edgeCount + " krawędziami.");
         return g;
     }
 

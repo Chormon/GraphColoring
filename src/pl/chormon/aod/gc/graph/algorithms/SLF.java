@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package pl.chormon.aod.gc.graph.algorithms;
 
 import java.util.ArrayList;
@@ -35,47 +34,51 @@ import pl.chormon.aod.gc.graph.Vertex;
  * @author Chormon
  */
 public class SLF implements Algorithm {
-    
+
     @Override
     public Graph color(Graph g) {
+        System.out.println("Kolorowanie grafu przy użyciu algorytmu Saturated Largest First...");
         int colors = 1;
-        while(g.uncolored()) {
+        while (g.uncolored()) {
             Vertex node = null;
             int currSdeg = 0;
-            for(Vertex v : g.getVertices()) {
-                if(v.getColor() != 0)
+            for (Vertex v : g.getVertices()) {
+                if (v.getColor() != 0) {
                     continue;
-                List<Integer> sdeg = new ArrayList<>();
-                for(Vertex n : v.getNeighbours()) {
-                    if((sdeg.isEmpty() || !sdeg.contains(n.getColor())) && n.getColor() != 0)
-                        sdeg.add(n.getColor());
                 }
-                if(node == null) {
+                List<Integer> sdeg = new ArrayList<>();
+                for (Vertex n : v.getNeighbours()) {
+                    if ((sdeg.isEmpty() || !sdeg.contains(n.getColor())) && n.getColor() != 0) {
+                        sdeg.add(n.getColor());
+                    }
+                }
+                if (node == null) {
                     node = v;
                     currSdeg = sdeg.size();
-                } else if(sdeg.size() > currSdeg) {
+                } else if (sdeg.size() > currSdeg) {
                     node = v;
                     currSdeg = sdeg.size();
-                } else if (sdeg.size() == currSdeg && node.getNeighbours().size() < v.getNeighbours().size()) {                    
+                } else if (sdeg.size() == currSdeg && node.getNeighbours().size() < v.getNeighbours().size()) {
                     node = v;
                     currSdeg = sdeg.size();
                 }
             }
             int color = 1;
             ListIterator<Vertex> i = node.getNeighbours().listIterator();
-            while(i.hasNext()) {
-                if(i.next().getColor() == color) {
+            while (i.hasNext()) {
+                if (i.next().getColor() == color) {
                     color++;
                     i = node.getNeighbours().listIterator();
                 }
             }
             g.getVertices().get(node.getId()).setColor(color);
-            System.out.println("V:" + node.getId() + " C:" + color);
-            if(color > colors)
+            System.out.println("W:" + node.getId() + " K:" + color);
+            if (color > colors) {
                 colors = color;
+            }
         }
-        System.out.println("Colors used: " + colors);
+        System.out.println("Użyte kolory: " + colors);
         return g;
     }
-    
+
 }

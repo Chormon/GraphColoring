@@ -38,6 +38,7 @@ public class BB implements Algorithm {
 
     @Override
     public Graph color(Graph g) {
+        System.out.println("Kolorowanie grafu przy użyciu algorytmu Branch and Bound...");
         final int U = g.getSize();
         solution = new int[U];
         int[] tmp = new int[U];
@@ -49,9 +50,9 @@ public class BB implements Algorithm {
         int i = 0;
         for (Vertex v : g.getVertices()) {
             v.setColor(solution[i++]);
-            System.out.println("V:" + v.getId() + " C:" + v.getColor());
+            System.out.println("W:" + v.getId() + " K:" + v.getColor());
         }
-        System.out.println("Colors used: " + best);
+        System.out.println("Użyte kolory: " + best);
         return g;
     }
 
@@ -61,8 +62,8 @@ public class BB implements Algorithm {
         boolean colored;
         do {
             colored = true;
-            for(Vertex n : v.getNeighbours()) {
-                if(tmp[n.getId()] == color) {
+            for (Vertex n : v.getNeighbours()) {
+                if (tmp[n.getId()] == color) {
                     colored = false;
                     break;
                 }
@@ -70,35 +71,32 @@ public class BB implements Algorithm {
             if (!colored) {
                 color++;
             }
-            if (color > best)
-            {
+            if (color >= best) {
                 return;
             }
         } while (!colored);
         if (color > cused) {
             cused++;
         }
-        if (cused > best) {
-            return;
-        }
         tmp[vertex] = color;
-        
-        if(arrayIsFull(tmp) && cused < best) {
+
+        if (arrayIsFull(tmp) && cused < best) {
             best = cused;
             solution = tmp.clone();
         }
 
         for (int i = 0; i < tmp.length; i++) {
             if (i != vertex && tmp[i] == 0) {
-                processVertex(vertices, i, tmp, cused, step+1);
+                processVertex(vertices, i, tmp, cused, step + 1);
             }
         }
         tmp[vertex] = 0;
     }
 
     private boolean arrayIsFull(int[] array) {
-        if(array == null)
+        if (array == null) {
             return false;
+        }
         for (int i = 0; i < array.length; i++) {
             if (array[i] == 0) {
                 return false;

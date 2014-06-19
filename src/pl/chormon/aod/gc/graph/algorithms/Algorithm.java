@@ -30,8 +30,9 @@ import pl.chormon.aod.gc.graph.Graph;
  * @author Chormon
  */
 public interface Algorithm {
-    
+
     public enum Alg {
+
         BB,
         SLF
     }
