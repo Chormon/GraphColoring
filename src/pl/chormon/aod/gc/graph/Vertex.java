@@ -33,37 +33,69 @@ import java.util.List;
 
 
 public class Vertex {
-    private int color;
-    private final int id;
-    private List<Vertex> neighbours;
 
+    /**
+     * Kolor wierzchołka.
+     */
+    protected int color;
+
+    /**
+     * ID wierzchołka
+     */
+    protected final int id;
+
+    /**
+     * Lista sąsiadów wierzchołka.
+     */
+    protected List<Vertex> neighbours;
+
+    /**
+     * Tworzy wierzchołek o podanym ID.
+     * @param index ID nowego wierzchołka
+     */
     public Vertex(int index) {
         this.id = index;
         this.color = 0;
         this.neighbours = new ArrayList<>();
     }
 
+    /**
+     * Pobranie ID wierzchołka.
+     * @return ID wierzchołka
+     */
     public int getId() {
         return id;
     }
     
+    /**
+     * Dodanie krawędzi do wierzchołka v.
+     * @param v wierzchołek, do którego będzie prowadziła krawędź
+     */
     public void addNeightbour(Vertex v) {
         neighbours.add(v);
     }
 
+    /**
+     * Pobranie koloru wierzchołka.
+     * @return kolor
+     */
     public int getColor() {
         return color;
     }
 
+    /**
+     * Ustawienie koloru wierzchołka.
+     * @param color kolor
+     */
     public void setColor(int color) {
         this.color = color;
     }
 
+    /**
+     * Pobranie listy wierzchołków sąsiednich.
+     * @return Lista wierzchołków
+     */
     public List<Vertex> getNeighbours() {
         return neighbours;
-    }
-
-    public void setNeighbours(List<Vertex> neighbours) {
-        this.neighbours = neighbours;
     }
 }

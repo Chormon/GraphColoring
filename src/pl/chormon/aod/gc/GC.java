@@ -39,7 +39,7 @@ public class GC {
     private static final String ALGORITHM_KEY = "-a";
 
     /**
-     * @param args the command line arguments
+     * @param args argumenty wiersza poleceń
      */
     public static void main(String[] args) {
 
@@ -49,6 +49,7 @@ public class GC {
         Alg alg = Alg.SLF;
         Algorithm algorithm = null;
 
+        /* Parsowanie argumentów */
         if (args.length == 1 && args[0].equalsIgnoreCase("?")) {
             printHelp();
             return;
@@ -86,7 +87,7 @@ public class GC {
             printUsage();
             return;
         }
-        MAX_E = V * (V - 1) / 2;
+        //MAX_E = V * (V - 1) / 2;
         //p = (float) E / MAX_E;
         p = G;
         for (int i = 2; i < args.length; i += 2) {
@@ -113,6 +114,7 @@ public class GC {
                     break;
             }
         }
+        /* Generowanie grafu i wyświetlenie listy sąsiedztwa */
         Graph g = Generator.createGraphByEdgeProbability(V, p, seed);
         g.print();
         switch (alg) {
@@ -123,21 +125,27 @@ public class GC {
                 algorithm = new SLF();
                 break;
         }
+        /* Kolorowanie grafu i walidacja */
         Graph colored = algorithm.color(g);
-        boolean legal = colored.isLegal();
-        if (legal) {
+        if (colored.isLegal()) {
             System.out.println("SUKCES! Graf został pokolorowany legalnie!");
         } else {
             System.out.println("PORAŻKA! Graf został niepoprawnie pokolorowany!");
         }
     }
 
-    private static void printUsage() {
+    /**
+     * Wypisuje użycie programu.
+     */
+    protected static void printUsage() {
         System.err.println("Użycie: java -jar GraphColoring.jar <V> <G> [-s <seed>] [-a <SLF/BB>]");
         System.out.println("Aby zobaczyć pomoc uruchom: java -jar GraphColoring.jar ?");
     }
 
-    private static void printHelp() {
+    /**
+     * Wypisuje pomoc.
+     */
+    protected static void printHelp() {
         System.out.println("Pomoc:");
         System.out.println("  Argumenty:");
         System.out.println("    Wymagane");

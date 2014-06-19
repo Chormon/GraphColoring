@@ -35,9 +35,20 @@ import java.util.TreeMap;
  */
 public class Graph {
 
-    private final Map<Integer, Vertex> vertices;
-    private final int size;
+    /**
+     * Wierzchołki w grafie.
+     */
+    protected final Map<Integer, Vertex> vertices;
 
+    /**
+     * Rozmiar grafu.
+     */
+    protected final int size;
+
+    /**
+     * Stworzenie grafu o danym rozmiarze.
+     * @param size rozmiar grafu
+     */
     public Graph(int size) {
         this.vertices = new TreeMap<>();
         for (int i = 0; i < size; i++) {
@@ -48,19 +59,19 @@ public class Graph {
     }
 
     /**
-     *
-     * @param v1
-     * @param v2
+     * Dodanie krawędzi pomiędzy wierzchołkami.
+     * @param v1 wierzchołek początkowy
+     * @param v2 wierzchołek docelowy
      */
     public void addNeighbor(int v1, int v2) {
         addNeighbor(v1, v2, false);
     }
 
     /**
-     *
-     * @param v1
-     * @param v2
-     * @param undirect
+     * Dodanie krawędzi pomiędzy wierzchołkami.
+     * @param v1 wierzchołek początkowy
+     * @param v2 wierzchołek docelowy
+     * @param undirect czy krawędź ma prowadzić w obie strony
      */
     public void addNeighbor(int v1, int v2, boolean undirect) {
         if (v1 < vertices.size() && v2 < vertices.size()) {
@@ -74,6 +85,10 @@ public class Graph {
         }
     }
 
+    /**
+     * Sprawdzenie, czy graf jest niepokolorowany.
+     * @return Czy graf jest niepokolorowany
+     */
     public boolean uncolored() {
         for (Vertex v : vertices.values()) {
             if (v.getColor() == 0) {
@@ -83,15 +98,27 @@ public class Graph {
         return false;
     }
 
+    /**
+     * Pobranie wierzchołków.
+     * @return Listę wierzchołków w grafie
+     */
     public List<Vertex> getVertices() {
         List<Vertex> list = new ArrayList<>(vertices.values());
         return list;
     }
 
+    /**
+     * Pobranie sąsiadów wierzchołka.
+     * @param v wierzchołek
+     * @return Listę wierzchołków będącymi sąsiadami wierzchołka v
+     */
     public List<Vertex> getNeighbors(int v) {
         return vertices.get(v).getNeighbours();
     }
 
+    /**
+     * Wypisanie listy sąsiedztwa.
+     */
     public void print() {
         System.out.println("Lista sąsiedztwa grafu:");
         for (Vertex v : vertices.values()) {
@@ -110,10 +137,18 @@ public class Graph {
         }
     }
 
+    /**
+     * Pobranie rozmiaru grafu.
+     * @return Rozmiar grafu
+     */
     public int getSize() {
         return size;
     }
 
+    /**
+     * Sprawdzenie, czy graf jest pokolorowany legalnie.
+     * @return Czy graf jest pokolorowany legalnie
+     */
     public boolean isLegal() {
         for (Vertex v : vertices.values()) {
             int c = v.getColor();
@@ -126,12 +161,18 @@ public class Graph {
         return true;
     }
     
+    /**
+     * Wypisanie kolorów wierzchołków.
+     */
     public void printColors() {
         for (Vertex v : vertices.values()) {
             System.out.println("W: " + v.getId() + " K: " + v.getColor());
         }
     }
 
+    /**
+     * Zresetowanie kolorów wierzchołków.
+     */
     public void resetColors() {
         for (Vertex v : vertices.values()) {
             v.setColor(0);

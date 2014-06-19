@@ -32,6 +32,13 @@ import pl.chormon.aod.gc.graph.Graph;
  */
 public class Generator {
 
+    /**
+     * Generowanie grafu na podstawie ilości wierzchołków, prawdopodobieństwa wystąpienia krawędzi oraz ziarna.
+     * @param V ilość wierzchołków
+     * @param probability prawdopodobieństwo wystąpienia krawędzi pomiędzy wierzchołkami
+     * @param seed ziarno generatora
+     * @return Wygenerowany graf
+     */
     public static Graph createGraphByEdgeProbability(int V, float probability, long seed) {
         if (probability > 1) {
             probability = 1;
@@ -43,7 +50,7 @@ public class Generator {
         Graph g = new Graph(V);
         Random generator;
         generator = new Random(seed);
-
+        /* Generowanie krawędzi */
         for (int i = 0; i < V; i++) {
             for (int j = 0; j < i; j++) {
                 float next = generator.nextFloat();

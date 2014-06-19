@@ -35,6 +35,12 @@ import pl.chormon.aod.gc.graph.Vertex;
  */
 public class SLF implements Algorithm {
 
+    /**
+     * Pokolorowanie danego grafu algorytmem Saturated Largest First.
+     *
+     * @param g graf do pokolorowania
+     * @return Pokolorowany graf
+     */
     @Override
     public Graph color(Graph g) {
         System.out.println("Kolorowanie grafu przy użyciu algorytmu Saturated Largest First...");
@@ -43,15 +49,17 @@ public class SLF implements Algorithm {
             Vertex node = null;
             int currSdeg = 0;
             for (Vertex v : g.getVertices()) {
+                /* Pomijamy, jeśli wierzchołek jest już pokolorowany */
                 if (v.getColor() != 0) {
                     continue;
                 }
-                List<Integer> sdeg = new ArrayList<>();
+                List<Integer> sdeg = new ArrayList<>(); // Przechowuje kolory sąsiadów. Na tej podstawie będzie wyliczany stopień nasycenia wierzchołka.
                 for (Vertex n : v.getNeighbours()) {
                     if ((sdeg.isEmpty() || !sdeg.contains(n.getColor())) && n.getColor() != 0) {
                         sdeg.add(n.getColor());
                     }
                 }
+                /* Wybieramy wierzchołek o największym stopniu nasycenia. Jeśli jest ich więcej, to bierzemy tego z większą liczbą sąsiadów. */
                 if (node == null) {
                     node = v;
                     currSdeg = sdeg.size();
@@ -63,6 +71,7 @@ public class SLF implements Algorithm {
                     currSdeg = sdeg.size();
                 }
             }
+            /* Kolorujemy zachłannie. */
             int color = 1;
             ListIterator<Vertex> i = node.getNeighbours().listIterator();
             while (i.hasNext()) {

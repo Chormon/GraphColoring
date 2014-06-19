@@ -31,11 +31,26 @@ import pl.chormon.aod.gc.graph.Graph;
  */
 public interface Algorithm {
 
+    /**
+     * Dostępne algorytmy kolorowania.
+     */
     public enum Alg {
 
+        /**
+         * Branch and Bound
+         */
         BB,
+
+        /**
+         * Saturated Largest First
+         */
         SLF
     }
 
+    /**
+     * Pokolorowanie danego grafu.
+     * @param g graf do pokolorowania
+     * @return Pokolorowany graf
+     */
     public Graph color(Graph g);
 }
