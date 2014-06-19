@@ -92,7 +92,7 @@ public class Graph {
         return vertices.get(v).getNeighbours();
     }
 
-    public void Print() {
+    public void print() {
         System.out.println("Lista sąsiedztwa grafu:");
         for (Vertex v : vertices.values()) {
             System.out.print(v.getId());
@@ -124,6 +124,12 @@ public class Graph {
             }
         }
         return true;
+    }
+    
+    public void printColors() {
+        for (Vertex v : vertices.values()) {
+            System.out.println("W: " + v.getId() + " K: " + v.getColor());
+        }
     }
 
     public void resetColors() {

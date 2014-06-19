@@ -46,7 +46,7 @@ public class GC {
         int V, E, MAX_E;
         float p, G;
         long seed = System.currentTimeMillis();
-        Alg alg = Alg.BB;
+        Alg alg = Alg.SLF;
         Algorithm algorithm = null;
 
         if (args.length == 1 && args[0].equalsIgnoreCase("?")) {
@@ -114,7 +114,7 @@ public class GC {
             }
         }
         Graph g = Generator.createGraphByEdgeProbability(V, p, seed);
-        g.Print();
+        g.print();
         switch (alg) {
             case BB:
                 algorithm = new BB();
