@@ -24,22 +24,22 @@
 package pl.chormon.aod.gc.graph;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
  * @author Chormon
  */
 public class Graph {
-    
+
     private final Map<Integer, Vertex> vertices;
     private final int size;
 
     public Graph(int size) {
-        this.vertices = new HashMap<>();
+        this.vertices = new TreeMap<>();
         for (int i = 0; i < size; i++) {
             Vertex node = new Vertex(i);
             this.vertices.put(i, node);
@@ -55,7 +55,7 @@ public class Graph {
     public void addNeighbor(int v1, int v2) {
         addNeighbor(v1, v2, false);
     }
-    
+
     /**
      *
      * @param v1
@@ -63,23 +63,26 @@ public class Graph {
      * @param undirect
      */
     public void addNeighbor(int v1, int v2, boolean undirect) {
-        if(v1 < vertices.size() && v2 < vertices.size()) {
+        if (v1 < vertices.size() && v2 < vertices.size()) {
             vertices.get(v1).addNeightbour(vertices.get(v2));
-            if(undirect)
+            if (undirect) {
                 vertices.get(v2).addNeightbour(vertices.get(v1));
+            }
         } else {
             int v = v1 > v2 ? v1 : v2;
-            System.out.println("Could't add neightbour! There is no verticle with index " + v + "!");
+            System.out.println("Nie można dodać sąsiada! Wierzhołek o indeksie " + v + " nie istnieje!");
         }
     }
-    
+
     public boolean uncolored() {
-        for(Vertex v : vertices.values())
-            if(v.getColor() == 0)
+        for (Vertex v : vertices.values()) {
+            if (v.getColor() == 0) {
                 return true;
+            }
+        }
         return false;
     }
-    
+
     public List<Vertex> getVertices() {
         List<Vertex> list = new ArrayList<>(vertices.values());
         return list;
@@ -88,40 +91,44 @@ public class Graph {
     public List<Vertex> getNeighbors(int v) {
         return vertices.get(v).getNeighbours();
     }
-    
+
     public void Print() {
-        System.out.println("Graph adjacency list:");
-        for(Vertex v : vertices.values()) {
+        System.out.println("Lista sąsiedztwa grafu:");
+        for (Vertex v : vertices.values()) {
             System.out.print(v.getId());
-            if(!v.getNeighbours().isEmpty()) {
+            if (!v.getNeighbours().isEmpty()) {
                 System.out.print("->");
             }
             ListIterator<Vertex> i = v.getNeighbours().listIterator();
-            while(i.hasNext()) {
-                    System.out.print(i.next().getId());
-                    if(i.hasNext())
-                        System.out.print("->");
+            while (i.hasNext()) {
+                System.out.print(i.next().getId());
+                if (i.hasNext()) {
+                    System.out.print("->");
+                }
             }
             System.out.println("");
         }
     }
-    
+
     public int getSize() {
         return size;
     }
-    
-    public boolean validateColors() {
-        for(Vertex v : vertices.values()) {
+
+    public boolean isLegal() {
+        for (Vertex v : vertices.values()) {
             int c = v.getColor();
-            for(Vertex n : v.getNeighbours())
-                if(n.getColor() == c)
+            for (Vertex n : v.getNeighbours()) {
+                if (n.getColor() == c) {
                     return false;
+                }
+            }
         }
         return true;
     }
-    
+
     public void resetColors() {
-        for(Vertex v : vertices.values())
+        for (Vertex v : vertices.values()) {
             v.setColor(0);
+        }
     }
 }
